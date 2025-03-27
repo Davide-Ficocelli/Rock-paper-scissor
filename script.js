@@ -3,13 +3,14 @@
 // Selecting elements
 
 // Buttons
+const allChoiceBtns = document.querySelectorAll(".choice-btn");
 const rock = document.querySelector(".rock");
 const paper = document.querySelector(".paper");
 const scissors = document.querySelector(".scissors");
 const restart = document.querySelector(".restart");
 
 // Other elements
-const userChoice = document.querySelector(".user-choice");
+const displayedUserChoice = document.querySelector(".user-choice");
 const opponentChoice = document.querySelector(".opponent-choice");
 const userVictory = document.querySelector(".user-victory");
 const userDefeat = document.querySelector(".user-defeat");
@@ -17,42 +18,31 @@ const draw = document.querySelector(".draw");
 
 // Game logic
 
-// 1. Saving user's choice and hiding and disabling the others
+// Saving user's choice
 
-function getUserChoiceHideAll() {
-  if (rock)
-    rock.addEventListener("click", function () {
-      rock.disabled = true;
-      paper.classList.add("hidden");
-      scissors.classList.add("hidden");
-      return rock.textContent;
-    });
+let userChoice = null;
 
-  if (paper)
-    paper.addEventListener("click", function () {
-      paper.disabled = true;
-      rock.classList.add("hidden");
-      scissors.classList.add("hidden");
-      return paper.textContent;
-    });
+const allChoiceBtnsArr = Array.from(allChoiceBtns);
 
-  if (scissors)
-    scissors.addEventListener("click", function () {
-      scissors.disabled = true;
-      rock.classList.add("hidden");
-      paper.classList.add("hidden");
-      return scissors.textContent;
+function getUserChoice() {
+  allChoiceBtnsArr.forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      userChoice = e.target.textContent;
+      console.log(userChoice);
     });
+  });
 }
 
-getUserChoiceHideAll();
+getUserChoice();
 
-// 2. Making the computer choose a random option
+// Hiding and disabling the others
 
-// 3. Displaying the choices
+// Making the computer choose a random option
 
-// 4. Displaying the result
+// Displaying the choices
 
-// 5. Displaying the restart game button
+// Displaying the result
 
-// 6. Restarting the game
+// Displaying the restart game button
+
+// Restarting the game
