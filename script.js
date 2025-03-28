@@ -13,91 +13,126 @@ const displayedResult = document.querySelector(".result");
 
 // Game logic
 
-// Saving user's choice
-
+// Initializing userChoice variable
 let userChoice;
 
+// Storing messages for different cases
 const resultMsg = {
   draw: "It's a draw!",
   userVictory: "You win!",
   userDefeat: "You lose!",
 };
 
+// Converting all choice buttons from node list to array
 const allChoiceBtnsArr = Array.from(allChoiceBtns);
 
+// Gets user's choice by extracting the text from the clicked button
+function _getUserChoice(e, arr) {
+  userChoice = e.target.textContent;
+}
+
+// Disables all choice buttons
+function _buttonsAreWorking(arr, boolean) {
+  boolean
+    ? arr.forEach((btn) => (btn.disabled = false))
+    : arr.forEach((btn) => (btn.disabled = true));
+}
+
+// Generate a random choice for the computer to choose
+function _getComputerRandomChoice(arr) {
+  const availableChoices = arr.map((btn) => btn.textContent);
+  const randomIndex = Math.floor(Math.random() * availableChoices.length);
+  const finalComputerChoice = availableChoices[randomIndex];
+
+  return finalComputerChoice;
+}
+
+// Determines whether an element should be visible or not
+const _elementIsVisible = (element, boolean) => {
+  boolean
+    ? element.classList.remove("hidden")
+    : element.classList.add("hidden");
+};
+
+// Displays a message in a specific element
+const _displayMsgInEl = (element, message) => (element.textContent = message);
+
+// Establishes the winner
+function _getResult(user, computer) {
+  if (!user && !computer) return;
+
+  if (user === computer) {
+    _displayMsgInEl(displayedResult, resultMsg.draw);
+    _elementIsVisible(displayedResult, true);
+  }
+  if (user === "Rock" && computer === "Scissors") {
+    _displayMsgInEl(displayedResult, resultMsg.userVictory);
+    _elementIsVisible(displayedResult, true);
+  }
+  if (user === "Rock" && computer === "Paper") {
+    _displayMsgInEl(displayedResult, resultMsg.userDefeat);
+    _elementIsVisible(displayedResult, true);
+  }
+  if (user === "Paper" && computer === "Rock") {
+    _displayMsgInEl(displayedResult, resultMsg.userVictory);
+    _elementIsVisible(displayedResult, true);
+  }
+  if (user === "Paper" && computer === "Scissors") {
+    _displayMsgInEl(displayedResult, resultMsg.userDefeat);
+    _elementIsVisible(displayedResult, true);
+  }
+  if (user === "Scissors" && computer === "Paper") {
+    _displayMsgInEl(displayedResult, resultMsg.userVictory);
+    _elementIsVisible(displayedResult, true);
+  }
+  if (user === "Scissors" && computer === "Rock") {
+    _displayMsgInEl(displayedResult, resultMsg.userDefeat);
+    _elementIsVisible(displayedResult, true);
+  }
+}
+
+// Restarts the game by setting values to their initial state
+function restartGame(e) {
+  _buttonsAreWorking(allChoiceBtnsArr, true);
+  _elementIsVisible(displayedUserChoice, false);
+  _elementIsVisible(displayedOpponentChoice, false);
+  _elementIsVisible(displayedResult, false);
+  _elementIsVisible(e.target, false);
+}
+
+// Main game function's logic
 function game() {
   allChoiceBtnsArr.forEach((btn, _, arr) => {
     btn.addEventListener("click", function (e) {
-      // Saving the clicked button's text content
-      userChoice = e.target.textContent;
-      console.log(userChoice);
-      // Disabling all buttons
-      arr.forEach((btn) => (btn.disabled = true));
+      _getUserChoice(e);
 
-      // Making the computer choose a random option
-      const availableChoices = allChoiceBtnsArr.map((btn) => btn.textContent);
-      const randomIndex = Math.floor(Math.random() * availableChoices.length);
-      const computerChoice = availableChoices[randomIndex];
-      console.log(computerChoice);
+      _buttonsAreWorking(arr, false);
+
+      const computerChoice = _getComputerRandomChoice(arr);
 
       // Displaying user and computer choices
 
       // Displaying the user's choice
-      displayedUserChoice.textContent = `You chose: ${userChoice}`;
-      displayedUserChoice.classList.remove("hidden");
+      _displayMsgInEl(displayedUserChoice, `You chose: ${userChoice}`);
+      _elementIsVisible(displayedUserChoice, true);
 
       // Displaying the computer's choice
-      displayedOpponentChoice.textContent = `The computer chose: ${computerChoice}`;
-      displayedOpponentChoice.classList.remove("hidden");
+      _displayMsgInEl(
+        displayedOpponentChoice,
+        `The computer chose: ${computerChoice}`
+      );
+      _elementIsVisible(displayedOpponentChoice, true);
 
       // Displaying the result
-      if (!userChoice && !computerChoice) return;
+      _getResult(userChoice, computerChoice);
 
-      if (userChoice === computerChoice) {
-        displayedResult.textContent = resultMsg.draw;
-        displayedResult.classList.remove("hidden");
-      }
-      if (userChoice === "Rock" && computerChoice === "Scissors") {
-        displayedResult.textContent = resultMsg.userVictory;
-        displayedResult.classList.remove("hidden");
-      }
-      if (userChoice === "Rock" && computerChoice === "Paper") {
-        displayedResult.textContent = resultMsg.userDefeat;
-        displayedResult.classList.remove("hidden");
-      }
-      if (userChoice === "Paper" && computerChoice === "Rock") {
-        displayedResult.textContent = resultMsg.userVictory;
-        displayedResult.classList.remove("hidden");
-      }
-      if (userChoice === "Paper" && computerChoice === "Scissors") {
-        displayedResult.textContent = resultMsg.userDefeat;
-        displayedResult.classList.remove("hidden");
-      }
-      if (userChoice === "Scissors" && computerChoice === "Paper") {
-        displayedResult.textContent = resultMsg.userVictory;
-        displayedResult.classList.remove("hidden");
-      }
-      if (userChoice === "Scissors" && computerChoice === "Rock") {
-        displayedResult.textContent = resultMsg.userDefeat;
-        displayedResult.classList.remove("hidden");
-      }
       // Displaying the restart game button
-      restartBtn.classList.remove("hidden");
+      _elementIsVisible(restartBtn, true);
     });
   });
 }
 
 game();
 
-// Restarting the game
-function restartGameBtn() {
-  restartBtn.addEventListener("click", function (e) {
-    allChoiceBtnsArr.forEach((btn) => (btn.disabled = false));
-    displayedUserChoice.classList.add("hidden");
-    displayedOpponentChoice.classList.add("hidden");
-    displayedResult.classList.add("hidden");
-    e.target.classList.add("hidden");
-  });
-}
-
-restartGameBtn();
+// Restart game button
+restartBtn.addEventListener("click", restartGame);
