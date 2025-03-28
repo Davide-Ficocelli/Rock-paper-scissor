@@ -141,4 +141,5 @@ class Game {
   }
 }
 
+// Initialize the game
 new Game();
