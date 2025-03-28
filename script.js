@@ -20,7 +20,7 @@ const draw = document.querySelector(".draw");
 
 // Saving user's choice
 
-let userChoice = null;
+let userChoice;
 
 const allChoiceBtnsArr = Array.from(allChoiceBtns);
 
