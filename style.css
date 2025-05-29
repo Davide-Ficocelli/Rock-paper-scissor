@@ -101,19 +101,13 @@ h1 {
   max-width: 400px;
 }
 
-/* Specific result styles */
-.result:not(.hidden) {
-  background-color: #d4edda; /* Default background for results */
-  color: #155724; /* Default text color for results */
-}
-
 /* Styles based on JS textContent for win/loss/draw.
    These classes would need to be added dynamically by JavaScript
    based on the result message. For example, if result.textContent
    is "You win!", add class 'win'. If it's "You lose!", add 'lose'.
    If it's "It's a draw!", add 'draw'.
 */
-/* .win {
+.win {
   background-color: #d4edda;
   color: #155724;
 }
@@ -126,7 +120,7 @@ h1 {
 .draw {
   background-color: #ffeeba;
   color: #856404;
-} */
+}
 
 .restart {
   background-color: #9b59b6;

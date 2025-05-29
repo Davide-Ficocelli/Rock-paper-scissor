@@ -64,6 +64,23 @@ class Game {
   // Displays a message in a specific element
   _displayMsgInEl = (element, message) => (element.textContent = message);
 
+  // Adds a class to the displayed result element
+  _addClassToDisplayedResultStyle(className) {
+    this.displayedResult.classList.add(className);
+  }
+
+  // Gets all classes from the displayed result element and removes the conditional classes to reset its style
+  _resetDisplayedResultStyle() {
+    const classesArr = Array.from(this.displayedResult.classList);
+    // Remove all classes except for "result" and "hidden"
+    classesArr.forEach((className) => {
+      if (className !== "result" && className !== "hidden") {
+        this.displayedResult.classList.remove(className);
+        classesArr.splice(classesArr.indexOf(className), 1);
+      }
+    });
+  }
+
   // Establishes the winner
   _getResult(user, computer) {
     if (!user && !computer) return;
@@ -71,30 +88,37 @@ class Game {
     if (user === computer) {
       this._displayMsgInEl(this.displayedResult, this.resultMsg.draw);
       this._elementIsVisible(this.displayedResult, true);
+      this._addClassToDisplayedResultStyle("draw");
     }
     if (user === "Rock" && computer === "Scissors") {
       this._displayMsgInEl(this.displayedResult, this.resultMsg.userVictory);
       this._elementIsVisible(this.displayedResult, true);
+      this._addClassToDisplayedResultStyle("win");
     }
     if (user === "Rock" && computer === "Paper") {
       this._displayMsgInEl(this.displayedResult, this.resultMsg.userDefeat);
       this._elementIsVisible(this.displayedResult, true);
+      this._addClassToDisplayedResultStyle("lose");
     }
     if (user === "Paper" && computer === "Rock") {
       this._displayMsgInEl(this.displayedResult, this.resultMsg.userVictory);
       this._elementIsVisible(this.displayedResult, true);
+      this._addClassToDisplayedResultStyle("win");
     }
     if (user === "Paper" && computer === "Scissors") {
       this._displayMsgInEl(this.displayedResult, this.resultMsg.userDefeat);
       this._elementIsVisible(this.displayedResult, true);
+      this._addClassToDisplayedResultStyle("lose");
     }
     if (user === "Scissors" && computer === "Paper") {
       this._displayMsgInEl(this.displayedResult, this.resultMsg.userVictory);
       this._elementIsVisible(this.displayedResult, true);
+      this._addClassToDisplayedResultStyle("win");
     }
     if (user === "Scissors" && computer === "Rock") {
       this._displayMsgInEl(this.displayedResult, this.resultMsg.userDefeat);
       this._elementIsVisible(this.displayedResult, true);
+      this._addClassToDisplayedResultStyle("lose");
     }
   }
 
@@ -107,6 +131,7 @@ class Game {
     this._elementIsVisible(this.displayedOpponentChoice, false);
     this._elementIsVisible(this.displayedResult, false);
     this._elementIsVisible(e.target, false);
+    this._resetDisplayedResultStyle();
   }
 
   // Contains game logic
